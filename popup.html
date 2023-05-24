@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>BackupMyListings</title>
+  <link rel="stylesheet" type="text/css" href="./popup.css">
+  <script src="popup.js"></script>
+</head>
+<body>
+  <div id="header">
+    <span id="title">BackupMyListings</span>
+    <button id="backupFilesBtn">Backup Files</button>
+    <!-- <a href="https://www.etsy.com/your/files/preview/1143492610904" target="_blank">Backup Listings</a> -->
+  </div>
+  <div id="content">
+    <div id="currentlyDownloadingSection">
+      <h3>Currently Downloading</h3>
+      <ul id="currentlyDownloadingList"></ul>
+    </div>
+    <div id="downloadErrorsSection">
+      <h3>Download Errors</h3>
+      <ul id="downloadErrorsList"></ul>
+    </div>
+    <div id="queuedToDownloadSection">
+      <h3>Queued to Download</h3>
+      <ul id="queuedToDownloadList"></ul>
+    </div>
+    <div id="successfullyDownloadedSection">
+      <h3>Successfully Downloaded</h3>
+      <ul id="successfullyDownloadedList"></ul>
+    </div>
+  </div>
+</body>
+</html>

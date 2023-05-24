@@ -1,0 +1,19 @@
+body {
+background-color: rgb(215,221,224);
+width:300px;
+}
+
+html {
+
+}
+
+#header {
+    display:flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: .5em;
+}
+
+#backupFilesBtn {
+    border-radius:.5em;
+}
