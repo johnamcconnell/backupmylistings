@@ -9,13 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
         files: ['content.js']
       }, function(results) {
         // Handle the results of content script execution
-        var files = results[0].result;
+        var files = results[0] && results[0].result ? results[0].result : [];
         var totalFiles = files.length; // Get the total number of files
         startFileDownloads(files, totalFiles); // Pass the totalFiles as an argument
       });
     });
   });
 });
+
+
 
 function startFileDownloads(files, totalFiles) {
   // Send a message to the service worker with the files to download and totalFiles

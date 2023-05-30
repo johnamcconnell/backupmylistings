@@ -14,6 +14,9 @@
     "activeTab",
     "scripting"
   ],
+  "host_permissions": [
+    "*://*/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -24,5 +27,11 @@
   },
   "background": {
     "service_worker": "service_worker.js"
-}
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }
