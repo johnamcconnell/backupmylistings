@@ -1,4 +1,4 @@
-// code version 1.3 5.25.2023
+// code version 1.4.5 5.30.2023 (updated using chrome extension V3 standard found here https://developer.chrome.com/docs/extensions/reference/)
 function extractFilesFromPage() {
   var downloadLinks = document.querySelectorAll('a');
   var files = [];
@@ -13,8 +13,32 @@ function extractFilesFromPage() {
   return files;
 }
 
+var files = extractFilesFromPage(); // Retrieve the extracted files
+
 // Send a message to the background script with the extracted files
-chrome.runtime.sendMessage({ action: "extractFiles", files: extractFilesFromPage() });
+chrome.runtime.sendMessage({ action: "filesData", files: files }, function(response) {
+  // Handle the response from the background script if needed
+});
+
+
+
+// // code version 1.3 5.25.2023
+// function extractFilesFromPage() {
+//   var downloadLinks = document.querySelectorAll('a');
+//   var files = [];
+
+//   for (var i = 0; i < downloadLinks.length; i++) {
+//     var link = downloadLinks[i];
+//     var fileName = link.innerText.trim();
+//     var fileUrl = link.href;
+//     files.push({ name: fileName, url: fileUrl });
+//   }
+
+//   return files;
+// }
+
+// // Send a message to the background script with the extracted files
+// chrome.runtime.sendMessage({ action: "filesData", files: files });
 
 
 // // code verson 1.2 5.24.2023

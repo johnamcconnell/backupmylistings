@@ -1,8 +1,9 @@
-// // code version 1.6 5.25.2023
+// code version 1.7.5 5.30.2023 (updated using chrome extension V3 standards found here https://developer.chrome.com/docs/extensions/reference/ )
+
 // Listen for messages from the background script
-self.addEventListener('message', event => {
-  if (event.data.action === 'downloadFiles') {
-    const files = event.data.files;
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'startDownloads') { // Update action name to match the one sent from popup.js
+    const files = message.files;
     // Call the function to initiate downloads
     initiateDownloads(files);
   }
@@ -10,6 +11,7 @@ self.addEventListener('message', event => {
 
 // Function to initiate downloads based on the file information
 function initiateDownloads(files) {
+  console.log("initiating the downloads...");
   // Iterate over the files and initiate downloads using chrome.downloads.download
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -38,6 +40,7 @@ function appendTimestampQueryParam(url) {
   const separator = url.includes("?") ? "&" : "?";
   return `${url}${separator}_=${timestamp}`;
 }
+
 
 
 
