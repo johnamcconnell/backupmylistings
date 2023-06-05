@@ -9,16 +9,19 @@ function extractFilesFromPage() {
     var fileUrl = link.href;
     files.push({ name: fileName, url: fileUrl });
   }
+  console.log(files);
 
   return files;
 }
 
-var files = extractFilesFromPage(); // Retrieve the extracted files
+extractFilesFromPage(); // Retrieve the extracted files
 
-// Send a message to the background script with the extracted files
-chrome.runtime.sendMessage({ action: "filesData", files: files }, function(response) {
-  // Handle the response from the background script if needed
-});
+// var files = extractFilesFromPage(); // Retrieve the extracted files
+
+// // Send a message to the background script with the extracted files
+// chrome.runtime.sendMessage({ action: "filesData", files: files }, function(response) {
+//   // Handle the response from the background script if needed
+// });
 
 
 
