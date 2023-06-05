@@ -2,12 +2,17 @@
 function extractFilesFromPage() {
   var downloadLinks = document.querySelectorAll('a');
   var files = [];
+  var fileExtensions = /(\.pdf|\.docx|\.xlsx|\.zip|\.png|\.jpg|\.jpeg|\.gif|\.txt)$/i; // add or remove file extensions here
 
   for (var i = 0; i < downloadLinks.length; i++) {
     var link = downloadLinks[i];
-    var fileName = link.innerText.trim();
-    var fileUrl = link.href;
-    files.push({ name: fileName, url: fileUrl });
+    var fileUrl = link.href.toLowerCase();
+    const fileExtension = fileUrl.split('.').pop();
+    const fileName = link.innerText.trim() + '.' + fileExtension;
+
+    if (fileUrl.match(fileExtensions)) {
+      files.push({ name: fileName, url: fileUrl });
+    }
   }
   console.log(files);
 
