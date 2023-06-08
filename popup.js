@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var files = results[0] && results[0].result ? results[0].result : [];
         var totalFiles = files.length; // Get the total number of files
         startFileDownloads(files, totalFiles); // Pass the totalFiles as an argument
+        console.log('results: ' + results);
       }).catch(function(error) {
         // Handle the error
         console.error(error);

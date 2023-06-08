@@ -1,18 +1,21 @@
 // code version 1.4.5 5.30.2023 (updated using chrome extension V3 standard found here https://developer.chrome.com/docs/extensions/reference/)
+// need a way to trigger event on bildr page. possibly opening a page with url params for success??
+
 function extractFilesFromPage() {
   var downloadLinks = document.querySelectorAll('a');
   var files = [];
-  var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
+  var fileExtensions = /(pdf|svg|zip|png|jpg|jpeg)$/i; // add or remove file extensions here
 
   for (var i = 0; i < downloadLinks.length; i++) {
     var link = downloadLinks[i];
     var fileUrl = link.href.toLowerCase();
     const fileExtension = fileUrl.split('.').pop();
-    var fileName = link.innerText.trim( + '.' + fileExtension);
+    // const fileName = link.innerText.trim() + '.' + fileExtension;
+    const fileName = link.innerText;
 
     // var fileName = fileName.replace('.' + fileExtension, '');
-
-    if (fileUrl.match(fileExtensions)) {
+    var match = fileUrl.match(fileExtension);
+    if (match) {
       files.push({ name: fileName, url: fileUrl });
     }
   }
