@@ -8,18 +8,20 @@ function extractFilesFromPage() {
     var link = downloadLinks[i];
     var fileUrl = link.href.toLowerCase();
     const fileExtension = fileUrl.split('.').pop();
-    const fileName = link.innerText.trim() + '.' + fileExtension;
+    var fileName = link.innerText.trim( + '.' + fileExtension);
+
+    // var fileName = fileName.replace('.' + fileExtension, '');
 
     if (fileUrl.match(fileExtensions)) {
       files.push({ name: fileName, url: fileUrl });
     }
   }
   console.log(files);
-
   return files;
 }
-
 extractFilesFromPage(); // Retrieve the extracted files
+
+    // Extract the file name from the href attribute
 
 // var files = extractFilesFromPage(); // Retrieve the extracted files
 
