@@ -2,7 +2,7 @@
 function extractFilesFromPage() {
   var downloadLinks = document.querySelectorAll('a');
   var files = [];
-  var fileExtensions = /(\.pdf|\.docx|\.xlsx|\.zip|\.png|\.jpg|\.jpeg|\.gif|\.txt)$/i; // add or remove file extensions here
+  var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
 
   for (var i = 0; i < downloadLinks.length; i++) {
     var link = downloadLinks[i];
