@@ -15,7 +15,8 @@
     "storage",
     "activeTab",
     "tabs",
-    "scripting"
+    "scripting",
+    "downloads.shelf"
   ],
   "host_permissions": [
     "*://*/*"
@@ -30,6 +31,10 @@
   },
   "background": {
     "service_worker": "service_worker.js"
+  },
+  "externally_connectable":
+  {
+  "matches": ["https://pdfc072b6ef924743b4ea05c7a3f4dd37.bildr.com/download-files"]
   },
   "content_scripts": [
     {

@@ -12,25 +12,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Function to initiate downloads based on the file information
 function initiateDownloads(files) {
   console.log("initiating the downloads...");
+
+  const delay = 500; //100 milisecond delay
+
   // Iterate over the files and initiate downloads using chrome.downloads.download
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const downloadUrl = file.url;
-    const filename = file.name;
+    const filename = 'myShop/' + file.name;
+
 
     // Modify the download URL by appending a timestamp query parameter to bypass caching
     const timestampUrl = appendTimestampQueryParam(downloadUrl);
 
-    // Use chrome.downloads.download API to trigger the file download
-    chrome.downloads.download({ url: timestampUrl, filename: filename, saveAs: false }, downloadId => {
-      if (downloadId) {
-        // Download started successfully
-        console.log(`Download started for file: ${filename}`);
-      } else {
-        // Download failed
-        console.error(`Download failed for file: ${filename}`);
-      }
-    });
+    setTimeout(() => {
+      // Use chrome.downloads.download API to trigger the file download
+      chrome.downloads.download({ url: timestampUrl, filename: filename, saveAs: false }, downloadId => {
+        if (downloadId) {
+          // Download started successfully
+          console.log(`Download started for file: ${filename}`);
+        } else {
+          // Download failed
+          console.error(`Download failed for file: ${filename}`);
+        }
+      });
+    }, i * delay); // Multiply the index by the delay to stagger the downloads
   }
 }
 

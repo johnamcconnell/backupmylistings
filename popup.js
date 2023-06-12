@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Handle the results of content script execution
         var files = results[0] && results[0].result ? results[0].result : [];
         var totalFiles = files.length; // Get the total number of files
-        startFileDownloads(files, totalFiles); // Pass the totalFiles as an argument
+        startFileDownloads(files); // Pass the totalFiles as an argument
         console.log('results: ' + results);
       }).catch(function(error) {
         // Handle the error
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-function startFileDownloads(files, totalFiles) {
+function startFileDownloads(files) {
   // Send a message to the background script with the files to download and totalFiles
-  chrome.runtime.sendMessage({ action: "startDownloads", files: files, totalFiles: totalFiles });
+  chrome.runtime.sendMessage({action: "startDownloads", files: files});
 }
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     var status = message.status;
     var fileList = message.files;
     var totalFiles = message.totalFiles;
-    startFileDownloads(fileList, totalFiles); // Update function call to pass fileList instead of files
+    startFileDownloads(fileList); // Update function call to pass fileList instead of files
 
     // Clear previous status
     clearStatus();
@@ -89,6 +89,9 @@ function updateTotalFiles(totalFiles) {
   }
 }
 
+
+// creating a link to open chrome settings for users 
+// chrome.tabs.create({url: 'chrome://settings/downloads'})
 
 
 // // code version 1.4 5.24.2023
