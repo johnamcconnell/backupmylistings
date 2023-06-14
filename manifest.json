@@ -1,5 +1,3 @@
-// updated using the chrome extensions v3 standard found here https://developer.chrome.com/docs/extensions/reference/
-
 {
   "manifest_version": 3,
   "name": "BackupMyListings",

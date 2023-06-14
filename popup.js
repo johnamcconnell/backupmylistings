@@ -32,6 +32,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     var status = message.status;
     var fileList = message.files;
     var totalFiles = message.totalFiles;
+
     startFileDownloads(fileList); // Update function call to pass fileList instead of files
 
     // Clear previous status
@@ -55,6 +56,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
     // Update the totalFiles field
     updateTotalFiles(totalFiles);
+  }
+});
+
+// Listen for messages from the service worker
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'updateDownloadStatistics') {
+    // Update the download statistics in the user interface
+    const downloadsRunningElement = document.getElementById('downloadsRunning');
+  
+    downloadsRunningElement.textContent = `${message.downloadsRunning}`;
   }
 });
 

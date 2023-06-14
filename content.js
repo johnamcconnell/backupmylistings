@@ -1,32 +1,34 @@
 // code version 1.4.5 5.30.2023 (updated using chrome extension V3 standard found here https://developer.chrome.com/docs/extensions/reference/)
 // need a way to trigger event on bildr page. possibly opening a page with url params for success??
-
-function extractFilesFromPage() {
-  var downloadLinks = document.getElementById('etsyfiles');
-  if (downloadLinks) {
-    downloadLinks = downloadLinks.querySelectorAll('a');
-  } else {
-    console.error("element with ID 'etsfiles' not found");
+  function extractFilesFromPage() {
+    var downloadLinks = document.getElementById('etsyfiles');
+  
+    if (downloadLinks) {
+      downloadLinks = downloadLinks.querySelectorAll('a');
+    } else {
+      console.error("element with ID 'etsfiles' not found");
+    }
+    var files = [];
+    var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
+    for (var i = 0; i < downloadLinks.length; i++) {
+      var link = downloadLinks[i];
+      var fileUrl = link.href.toLowerCase();
+      const fileExtension = fileUrl.split('.').pop();
+      // const fileName = link.innerText.trim() + '.' + fileExtension;
+      const fileName = link.innerText;
+      // var fileName = fileName.replace('.' + fileExtension, '');
+      // var match = fileUrl.match(fileExtension);
+      // if (match) {
+      files.push({ name: fileName, url: fileUrl }); //removed fileExtension matching
+      // }
+    }
+    console.log(files.length);
+    var totalFilesElement = document.getElementById('totalFiles');
+    totalFilesElement.innerText = files.length;
+    return files;
   }
-
-  var files = [];
-  var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
-  for (var i = 0; i < downloadLinks.length; i++) {
-    var link = downloadLinks[i];
-    var fileUrl = link.href.toLowerCase();
-    const fileExtension = fileUrl.split('.').pop();
-    // const fileName = link.innerText.trim() + '.' + fileExtension;
-    const fileName = link.innerText;
-    // var fileName = fileName.replace('.' + fileExtension, '');
-    // var match = fileUrl.match(fileExtension);
-    // if (match) {
-    files.push({ name: fileName, url: fileUrl }); //removed fileExtension matching
-    // }
-  }
-  console.log(files);
-  return files;
-}
- extractFilesFromPage(); // Retrieve the extracted files
+   extractFilesFromPage(); // Retrieve the extracted files
+  
 
 
     // Extract the file name from the href attribute
