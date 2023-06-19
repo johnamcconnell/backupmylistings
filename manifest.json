@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "BackupMyListings",
   "version": "1.0",
-  "description": "A Chrome extension to help organize and download files",
+  "description": "Backupmylistings file backup tool",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
@@ -25,7 +25,8 @@
       "16": "icon.png",
       "48": "icon.png",
       "128": "icon.png"
-    }
+    },
+    "default_title": "Use this app to download your files"
   },
   "background": {
     "service_worker": "service_worker.js"
@@ -37,7 +38,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["popup.js"]
     }
   ]
 }

@@ -145,11 +145,7 @@ body {
   background-color: #f9fafb;
   border: 0 solid #eaecf0;
   border-bottom-width: .0625rem;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-top: 1.5rem;
-  display: flex;
+  padding:1em 0em;
 }
 
 .frame-1 {
@@ -157,10 +153,8 @@ body {
   grid-column-gap: .625rem;
   grid-row-gap: .625rem;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  justify-content: center;
+  align-items: center;
   display: flex;
 }
 
@@ -176,12 +170,12 @@ body {
   padding: .5rem .875rem;
   text-decoration: none;
   display: flex;
+  flex-direction:row;
   box-shadow: 0 1px .125rem rgba(16, 24, 40, .05);
+  cursor:pointer;
 }
 
 #backupFilesBtn {
-    display:flex;
-    flex-direction:row;
     gap:.5em;
 }
 
@@ -201,6 +195,8 @@ body {
   font-size: .875rem;
   font-weight: 600;
   line-height: 1.25rem;
+  display:flex;
+  gap:.5em;
 }
 
 .menu {
@@ -220,7 +216,6 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-bottom: 1.5rem;
   display: flex;
 }
 
@@ -238,10 +233,10 @@ body {
   width: 100%;
   grid-column-gap: 0rem;
   grid-row-gap: 0rem;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  gap:.5em;
+  padding: 1rem;
   display: flex;
 }
 

@@ -1,130 +1,31 @@
 // code version 1.4.5 5.30.2023 (updated using chrome extension V3 standard found here https://developer.chrome.com/docs/extensions/reference/)
-// need a way to trigger event on bildr page. possibly opening a page with url params for success??
-  function extractFilesFromPage() {
-    var downloadLinks = document.getElementById('etsyfiles');
-  
-    if (downloadLinks) {
-      downloadLinks = downloadLinks.querySelectorAll('a');
-    } else {
-      console.error("element with ID 'etsfiles' not found");
-    }
-    var files = [];
-    var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
-    for (var i = 0; i < downloadLinks.length; i++) {
-      var link = downloadLinks[i];
-      var fileUrl = link.href.toLowerCase();
-      const fileExtension = fileUrl.split('.').pop();
-      // const fileName = link.innerText.trim() + '.' + fileExtension;
-      const fileName = link.innerText;
-      // var fileName = fileName.replace('.' + fileExtension, '');
-      // var match = fileUrl.match(fileExtension);
-      // if (match) {
-      files.push({ name: fileName, url: fileUrl }); //removed fileExtension matching
-      // }
-    }
-    console.log(files.length);
-    var totalFilesElement = document.getElementById('totalFiles');
-    totalFilesElement.innerText = files.length;
-    return files;
+function extractFilesFromPage() {
+  var downloadLinks = document.getElementById('etsyfiles');
+
+  if (downloadLinks) {
+    downloadLinks = downloadLinks.querySelectorAll('a');
+  } else {
+    console.log("element with ID 'etsfiles' not found");
   }
-   extractFilesFromPage(); // Retrieve the extracted files
-  
+
+  const filelist = [];
+  var fileExtensions = /(\.pdf|\.svg|\.zip|\.png|\.jpg|\.jpeg)$/i; // add or remove file extensions here
+
+  for (var i = 0; i < downloadLinks.length; i++) {
+    var link = downloadLinks[i];
+    var fileUrl = link.href.toLowerCase();
+    const fileExtension = fileUrl.split('.').pop();
+    const fileName = link.innerText;
+    filelist.push({ name: fileName, url: fileUrl });
+  }
+
+  console.log(filelist.length);
+  return filelist;
+}
+extractFilesFromPage();
 
 
-    // Extract the file name from the href attribute
-
-// var files = extractFilesFromPage(); // Retrieve the extracted files
-
-// // Send a message to the background script with the extracted files
-// chrome.runtime.sendMessage({ action: "filesData", files: files }, function(response) {
-//   // Handle the response from the background script if needed
+// extractFilesFromPage(function (files) {
+//   chrome.runtime.sendMessage({ action: 'updateTotalFiles', totalFiles: files.length, files: files });
 // });
 
-
-
-// // code version 1.3 5.25.2023
-// function extractFilesFromPage() {
-//   var downloadLinks = document.querySelectorAll('a');
-//   var files = [];
-
-//   for (var i = 0; i < downloadLinks.length; i++) {
-//     var link = downloadLinks[i];
-//     var fileName = link.innerText.trim();
-//     var fileUrl = link.href;
-//     files.push({ name: fileName, url: fileUrl });
-//   }
-
-//   return files;
-// }
-
-// // Send a message to the background script with the extracted files
-// chrome.runtime.sendMessage({ action: "filesData", files: files });
-
-
-// // code verson 1.2 5.24.2023
-// function extractFilesFromPage() {
-//   var downloadLinks = document.querySelectorAll('a');
-//   var files = [];
-
-//   for (var i = 0; i < downloadLinks.length; i++) {
-//     var link = downloadLinks[i];
-//     var fileName = link.innerText.trim();
-//     var fileUrl = link.href;
-//     files.push({ name: fileName, url: fileUrl });
-//   }
-
-//   return files;
-// }
-
-// // Send a message to the background script with the extracted files
-// chrome.runtime.sendMessage({ action: "extractFiles", files: extractFilesFromPage() });
-
-
-// // code version 1.1 5.24.2023
-// function extractFilesFromPage() {
-//   var downloadLinks = document.querySelectorAll('a');
-//   var files = [];
-
-//   for (var i = 0; i < downloadLinks.length; i++) {
-//     var link = downloadLinks[i];
-//     var fileName = link.innerText.trim();
-//     var fileUrl = link.href;
-//     files.push({ name: fileName, url: fileUrl });
-//   }
-
-//   return files;
-// }
-
-// // Send a message to the background script with the extracted files
-// var files = extractFilesFromPage();
-// if (files.length > 0) {
-//   chrome.runtime.sendMessage({ action: "extractFiles", files: files }, function(response) {
-//     // Handle the response from the background script
-//     if (response && response.success) {
-//       var files = response.files;
-//       // Send the extracted files back to popup.js
-//       chrome.runtime.sendMessage({ action: "updateStatus", status: "queuedToDownload", files: files });
-//     }
-//   });
-// } else {
-//   console.log("No files found on the page.");
-// }
-
-
-// code version 1.0 5.23.2023
-// function extractFilesFromPage() {
-//   var downloadLinks = document.querySelectorAll('a');
-//   var files = [];
-
-//   for (var i = 0; i < downloadLinks.length; i++) {
-//     var link = downloadLinks[i];
-//     var fileName = link.innerText.trim();
-//     var fileUrl = link.href;
-//     files.push({ name: fileName, url: fileUrl });
-//   }
-
-//   return files;
-// }
-
-// // Send a message to the background script with the extracted files
-// chrome.runtime.sendMessage({ action: "extractFiles", files: extractFilesFromPage() });

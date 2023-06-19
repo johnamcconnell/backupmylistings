@@ -6,6 +6,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const files = message.files;
     // Call the function to initiate downloads
     initiateDownloads(files);
+  } else if (message.action === 'resetDownloadCount') {
+    downloadsRunning = 0;
   }
 });
 
@@ -14,8 +16,12 @@ let downloadsRunning = 0;
 
 function updateDownloadStatistics() {
   // Send a message to the extension's user interface
-  chrome.runtime.sendMessage({ action: 'updateDownloadStatistics', totalFiles, downloadsRunning });
+  chrome.runtime.sendMessage({ action: 'updateDownloadStatistics', downloadsRunning });
 }
+
+// function updateTotalFiles() {
+//   chrome.runtime.sendMessage({ action: 'updateTotalFiles', files });
+// }
 
 // Function to initiate downloads based on the file information
 function initiateDownloads(files) {
@@ -49,15 +55,19 @@ function initiateDownloads(files) {
     const timestampUrl = appendTimestampQueryParam(downloadUrl);
 
     setTimeout(() => {
-
-
       // Use chrome.downloads.download API to trigger the file download
       chrome.downloads.download({ url: timestampUrl, filename: filename, saveAs: false }, downloadId => {
         if (downloadId) {
           // Download started successfully
           console.log(`Download started for file: ${filename}`);
-            downloadsRunning++;
-            updateDownloadStatistics();
+          downloadsRunning++;
+          updateDownloadStatistics();
+
+          // Check if all downloads are complete
+          if (downloadsRunning === totalFiles) {
+            // Enable the download button
+            chrome.runtime.sendMessage({ action: 'downloadsComplete' });
+          }
         } else {
           // Download failed
           console.error(`Download failed for file: ${filename}`);
@@ -73,185 +83,3 @@ function appendTimestampQueryParam(url) {
   const separator = url.includes("?") ? "&" : "?";
   return `${url}${separator}_=${timestamp}`;
 }
-
-
-
-
-
-
-// // code version 1.5 5.24.2023
-// // Listen for messages from the content script
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-//     const totalFiles = files.length;
-//     let completedDownloads = 0;
-
-//     // Send a message to the browser action popup to update the status and totalFiles
-//     chrome.runtime.sendMessage({ action: "updateStatus", status: "queuedToDownload", files, totalFiles });
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-//       chrome.downloads.download({ url: file.url, filename: file.name }, (downloadId) => {
-//         if (downloadId) {
-//           // Download started successfully, update the status to "currentlyDownloading"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "currentlyDownloading", files: [file], totalFiles });
-//         } else {
-//           // Download failed, update the status to "downloadErrors"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "downloadErrors", files: [file], totalFiles });
-//         }
-
-//         // Increment the count of completed downloads
-//         completedDownloads++;
-
-//         // Check if all downloads are completed
-//         if (completedDownloads === totalFiles) {
-//           // All downloads completed, update the status to "successfullyDownloaded"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "successfullyDownloaded", files, totalFiles });
-//         }
-//       });
-//     }
-//   }
-// });
-
-
-// // code version 1.4 5.24.2023
-// // Listen for messages from the content script
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-//     const totalFiles = files.length;
-//     let completedDownloads = 0;
-
-//     // Send a message to the browser action popup to update the status and totalFiles
-//     chrome.runtime.sendMessage({ action: "updateStatus", status: "queuedToDownload", files, totalFiles });
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-//       chrome.downloads.download({ url: file.url, filename: file.name }, (downloadId) => {
-//         if (downloadId) {
-//           // Download started successfully, update the status to "currentlyDownloading"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "currentlyDownloading", files: [file], totalFiles });
-//         } else {
-//           // Download failed, update the status to "downloadErrors"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "downloadErrors", files: [file], totalFiles });
-//         }
-
-//         // Increment the count of completed downloads
-//         completedDownloads++;
-
-//         // Check if all downloads are completed
-//         if (completedDownloads === totalFiles) {
-//           // All downloads completed, update the status to "successfullyDownloaded"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "successfullyDownloaded", files, totalFiles });
-//         }
-//       });
-//     }
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-// // code version 1.3 5.24.2023
-// // Listen for messages from the content script
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-
-//     // Send a message to the browser action popup to update the status
-//     chrome.runtime.sendMessage({ action: "updateStatus", status: "queuedToDownload", files });
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-//       chrome.downloads.download({ url: file.url, filename: file.name }, (downloadId) => {
-//         if (downloadId) {
-//           // Download started successfully, update the status to "currentlyDownloading"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "currentlyDownloading", files: [file] });
-//         } else {
-//           // Download failed, update the status to "downloadErrors"
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "downloadErrors", files: [file] });
-//         }
-//       });
-//     }
-//   }
-// });
-
-
-
-// // code version 1.2 5.24.2023
-// // Listen for messages from the content script
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-//       chrome.downloads.download({ url: file.url, filename: file.name });
-//     }
-//   }
-// });
-
-
-// // code version 1.1 5.24.2023
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-
-//     // Send a response back to content.js
-//     sendResponse({ success: true, files: files });
-
-//     // Notify popup.js about the files to be downloaded
-//     chrome.runtime.sendMessage({ action: "updateStatus", status: "queuedToDownload", files: files });
-//   }
-// });
-
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "startDownloads") {
-//     const files = message.files;
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-
-//       // Notify popup.js about the currently downloading file
-//       chrome.runtime.sendMessage({ action: "updateStatus", status: "currentlyDownloading", files: [file] });
-
-//       chrome.downloads.download({ url: file.url, filename: file.name }, function(downloadId) {
-//         if (downloadId) {
-//           // Notify popup.js about the successfully downloaded file
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "successfullyDownloaded", files: [file] });
-//         } else {
-//           // Notify popup.js about the download error
-//           chrome.runtime.sendMessage({ action: "updateStatus", status: "downloadErrors", files: [file] });
-//         }
-//       });
-//     }
-//   }
-// });
-
-
-// code version 1.1 5.23.2023
-// // Listen for messages from content scripts
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "extractFiles") {
-//     const files = message.files;
-
-//     for (let i = 0; i < files.length; i++) {
-//       const file = files[i];
-//       // Use the file.name and file.url to download the file
-//       chrome.downloads.download({ url: file.url, filename: file.name });
-//     }
-//   }
-// });
