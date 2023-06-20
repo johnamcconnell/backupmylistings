@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "BackupMyListings",
   "version": "1.0",
-  "description": "Backupmylistings file backup tool",
+  "description": "Backupmylistings.com - backup and organize your Etsy store listings",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
@@ -10,9 +10,7 @@
   },
   "permissions": [
     "downloads",
-    "storage",
     "activeTab",
-    "tabs",
     "scripting",
     "downloads.shelf"
   ],
